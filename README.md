@@ -7,18 +7,6 @@ This Python program uses the TikTokApi library to fetch trending videos from Tik
 - Python 3
 - TikTokApi library (`pip install TikTokApi`)
 
-## Setup
-
-1. Clone the repository or download the source code.
-2. Install the required dependencies using `pip install -r requirements.txt`.
-3. Set the `ms_token` environment variable in your system with your TikTok token obtained from your TikTok cookies.
-
-## Usage
-
-Run the `trending_videos()` function from `main.py` to fetch and analyze trending TikTok videos.
-
-[...]
-
 ## Functionality
 
 - Fetches 30 trending videos from TikTok.
