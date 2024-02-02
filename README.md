@@ -18,5 +18,4 @@ Python program to analyze data about trednding videos on TikTok, using the TikTo
 
 ## Acknowledgments
 
-- The program utilizes the TikTokApi library to interact with TikTok's API.
-- This project is for educational purposes and may require adjustments based on TikTok's API changes.
+- This project is for educational purposes.
