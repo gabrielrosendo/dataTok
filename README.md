@@ -1,6 +1,5 @@
 # TikTok Video Analysis Program
-
-This Python program uses the TikTokApi library to fetch trending videos from TikTok and perform analysis on their attributes, authors, and associated hashtags.
+Python program to analyze data about trednding videos on TikTok, using the TikTokApi library.
 
 ## Prerequisites
 
