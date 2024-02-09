@@ -1,6 +1,9 @@
 from TikTokApi import TikTokApi
 import asyncio
 import os
+from matplotlib import pyplot as plt
+import pandas as pd
+
 
 # Get your own ms_token from your cookies on tiktok.com
 ms_token = os.environ.get("ms_token", "")
@@ -10,6 +13,7 @@ async def get_video_attributes(video):
     for attr in dir(video):
         #print(attr)
         pass
+
 
 # prints are for debugging; ignore
 async def get_author_info(author):
@@ -53,17 +57,47 @@ async def get_stats_info(video):
         print("Comments: ", stats['commentCount'])
         print("Shares: ", stats['shareCount'])
         print("Saves: ", stats['collectCount'])
+
+async def get_sound_info(video):
+    sound_info = video.sound
+    print("Audio info: ", sound_info)
+    for attr in dir(sound_info):
+        #print(attr)
+        pass
+    print("Play URL: ", sound_info.play_url)
+    print("Duration: ", sound_info.duration)
+
+async def analyze_engagement_metrics(videos):
+    data_list = []
+
+    for video in videos:
+        data = {'Views': 0, 'Likes': 0, 'Comments': 0, 'Shares': 0, 'Saves': 0}
+
+        stats = video.stats
+        data['Views'] = stats['playCount']
+        data['Likes'] = stats['diggCount']
+        data['Comments'] = stats['commentCount']
+        data['Shares'] = stats['shareCount']
+        data['Saves'] = stats['collectCount']
+
+        data_list.append(data)
         
 
+    df = pd.DataFrame(data_list)
 
+    # Plot engagement metrics
+    df.plot(kind='bar', subplots=True, layout=(3,2), legend=False)
+    plt.show()        
 
 
 async def trending_videos():
     api = TikTokApi()
     i=0
     await api.create_sessions(ms_tokens=[ms_token], num_sessions=1, sleep_after=3, headless=False)
+    videos = []
     try:
         async for video in api.trending.videos(count=30):
+            videos.append(video)
             await get_video_attributes(video)
 
             if hasattr(video, 'author') and video.author is not None:
@@ -73,10 +107,13 @@ async def trending_videos():
 
             await get_hashtags_info(video)
             await get_stats_info(video)
+            await get_sound_info(video)
 
             # Exit the loop after processing the first video for demonstration
-            if i > 3:
-                break
+            if i > 10:
+               break
+
+        await analyze_engagement_metrics(videos)
 
     except Exception as e:
         print(f"An exception occurred: {e}")
